@@ -153,7 +153,7 @@ class DRMGen(object):
 
         self.ra = ra
         self.dec = dec
-
+        print(self._occult)
         if self._occult:
             if is_occulted(ra, dec, self._sc_pos):
                 self._drm = self._occulted_DRM
