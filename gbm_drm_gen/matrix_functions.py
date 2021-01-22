@@ -2,7 +2,7 @@ import numba as nb
 import numpy as np
 
 
-@nb.njit(fastmath=False, parallel=False)
+@nb.njit(cache=True, fastmath=False, parallel=False)
 def closest(point_assume_f, grid_points_list_f):
 
     N = grid_points_list_f.shape[0]
@@ -23,7 +23,7 @@ def closest(point_assume_f, grid_points_list_f):
             maxi = distance
     return i1
 
-@nb.njit(fastmath=False, parallel=False)
+@nb.njit(cache=True, fastmath=False, parallel=False)
 def trfind(point_assume_f, grid_points_list_f):
 
     N = grid_points_list_f.shape[0]
@@ -75,7 +75,7 @@ def trfind(point_assume_f, grid_points_list_f):
     return weights[2], weights[1], weights[0], i1, i2, i3
 
 
-@nb.njit(fastmath=True)
+@nb.njit(cache=True, fastmath=True)
 def calc_weights_numba(p1, p2, p3, p_find):
     """
     ###################### Weights from https://codeplea.com/triangular-interpolation ############
@@ -118,7 +118,7 @@ def calc_weights_numba(p1, p2, p3, p_find):
     return np.abs(w)
 
 
-@nb.njit(fastmath=True)
+@nb.njit(cache=True, fastmath=True)
 def geocoords(theta_geo, phi_geo, theta_source, phi_source):
 
     gx = np.empty(3)
@@ -166,7 +166,7 @@ def geocoords(theta_geo, phi_geo, theta_source, phi_source):
     return gx, gy, gz, sl
 
 
-@nb.njit(fastmath=True)
+@nb.njit(cache=True, fastmath=True)
 def geo_to_space(theta_u, phi_u, gx, gy, gz):
 
     dtr = np.pi / 180.0
@@ -194,7 +194,7 @@ def geo_to_space(theta_u, phi_u, gx, gy, gz):
     return dirx, diry, dirz, az, el
 
 
-@nb.njit(fastmath=True)
+@nb.njit(cache=True, fastmath=True)
 def calc_sphere_dist(ra1, dec1, ra2, dec2, dtr):
 
     y = np.sqrt(
@@ -212,7 +212,7 @@ def calc_sphere_dist(ra1, dec1, ra2, dec2, dtr):
     return np.arctan2(y, x) / dtr
 
 
-@nb.njit(fastmath=True)
+@nb.njit(cache=True, fastmath=True)
 def highres_ephoton_interpolator(
     ebin_edge_in, ein, matrix, edif_edge_lo, edif_edge_hi, nhbins
 ):
@@ -267,7 +267,7 @@ def highres_ephoton_interpolator(
     return new_epx_lo, new_epx_hi, diff_matrix
 
 
-@nb.njit(fastmath=True)
+@nb.njit(cache=True, fastmath=True)
 def atscat_highres_ephoton_interpolator(ebin_edge_in, ein, matrix):
 
     nobins_in = len(ebin_edge_in) - 1
@@ -305,7 +305,7 @@ def atscat_highres_ephoton_interpolator(ebin_edge_in, ein, matrix):
     return new_matrix
 
 
-@nb.njit(fastmath=True)
+@nb.njit(cache=True, fastmath=True)
 def echan_integrator(diff_matrix, edif_edge_lo, edif_edge_hi, nhbins, ebin_edge_out):
 
     nobins_in = diff_matrix.shape[0]

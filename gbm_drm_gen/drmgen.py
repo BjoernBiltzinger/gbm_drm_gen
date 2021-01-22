@@ -687,7 +687,7 @@ def _build_drm(
     ) / 2.0
     return final_drm
 
-@nb.njit(parallel=True, fastmath=True)
+@nb.njit(cache=True, parallel=True, fastmath=True)
 def at_scat(tmp_out, num_theta, num_phi, theta_u, phi_u, gx, gy, gz,
             sf, grid_points_list, trigdat_precalc_rsps, rsps, milliaz, millizen, epx_lo, epx_hi, ichan, out_edge,
             at_scat_data, il_low, il_high, l_frac, trigdat):
@@ -734,7 +734,7 @@ def at_scat(tmp_out, num_theta, num_phi, theta_u, phi_u, gx, gy, gz,
                 )
 
                 
-@nb.njit(fastmath=True, parallel=False)
+@nb.njit(cache=True, fastmath=True, parallel=False)
 def msum(this_data_lo, this_data_hi, direct_diff_matrix, tmp_out, l_frac):
     tmp = this_data_lo*l_frac+this_data_hi*(1-l_frac)
     tmp_out += np.dot(tmp, direct_diff_matrix)
